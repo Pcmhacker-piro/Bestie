@@ -13,7 +13,7 @@ interface Props {
 
 const quoteSets = [
   { text: "Some people come into our lives and leave footprints on our hearts.", from: "—" },
-  { text: "A bestie is like a sister you choose for yourself.", from: "—" },
+  { text: "Family is not just an important thing, it's everything.", from: "—" },
   { text: "Life was meant for good friends and great adventures.", from: "—" },
   { text: "Together is the best place to be.", from: "—" },
 ];
