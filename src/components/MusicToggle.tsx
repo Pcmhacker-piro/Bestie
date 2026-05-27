@@ -4,49 +4,36 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
 export default function MusicToggle() {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const startedRef = useRef(false);
-
-  const tryPlay = () => {
-    if (startedRef.current || !audioRef.current) return;
-    startedRef.current = true;
-    audioRef.current.play().then(() => {
-      setPlaying(true);
-    }).catch(() => {
-      startedRef.current = false;
-    });
-  };
 
   useEffect(() => {
     const audio = new Audio("/music.mp3");
     audio.loop = true;
+    audio.muted = true;
     audio.volume = 0.3;
     audioRef.current = audio;
 
-    tryPlay();
+    audio.play().catch(() => {});
 
-    const onInteraction = () => tryPlay();
-    document.addEventListener("click", onInteraction);
-    document.addEventListener("touchstart", onInteraction);
-    document.addEventListener("keydown", onInteraction);
-    window.addEventListener("scroll", onInteraction);
+    const timer = setTimeout(() => {
+      audio.muted = false;
+    }, 2500);
 
     return () => {
+      clearTimeout(timer);
       audio.pause();
-      document.removeEventListener("click", onInteraction);
-      document.removeEventListener("touchstart", onInteraction);
-      document.removeEventListener("keydown", onInteraction);
-      window.removeEventListener("scroll", onInteraction);
     };
   }, []);
 
   const toggle = () => {
-    if (!audioRef.current) return;
+    const audio = audioRef.current;
+    if (!audio) return;
     if (playing) {
-      audioRef.current.pause();
+      audio.pause();
     } else {
-      audioRef.current.play().catch(() => {});
+      audio.muted = false;
+      audio.play().catch(() => {});
     }
     setPlaying(!playing);
   };
