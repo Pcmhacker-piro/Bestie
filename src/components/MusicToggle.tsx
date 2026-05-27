@@ -1,47 +1,45 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function MusicToggle() {
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const startedRef = useRef(false);
 
-  const startMusic = useCallback(() => {
+  const tryPlay = () => {
     if (startedRef.current || !audioRef.current) return;
     startedRef.current = true;
     audioRef.current.play().then(() => {
       setPlaying(true);
     }).catch(() => {
-      setPlaying(false);
+      startedRef.current = false;
     });
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-    document.removeEventListener("keydown", startMusic);
-    window.removeEventListener("scroll", startMusic);
-  }, []);
+  };
 
   useEffect(() => {
-    audioRef.current = new Audio("/music.mp3");
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
+    const audio = new Audio("/music.mp3");
+    audio.loop = true;
+    audio.volume = 0.3;
+    audioRef.current = audio;
 
-    setTimeout(() => startMusic(), 3000);
+    tryPlay();
 
-    document.addEventListener("click", startMusic);
-    document.addEventListener("touchstart", startMusic);
-    document.addEventListener("keydown", startMusic);
-    window.addEventListener("scroll", startMusic);
+    const onInteraction = () => tryPlay();
+    document.addEventListener("click", onInteraction);
+    document.addEventListener("touchstart", onInteraction);
+    document.addEventListener("keydown", onInteraction);
+    window.addEventListener("scroll", onInteraction);
 
     return () => {
-      audioRef.current?.pause();
-      document.removeEventListener("click", startMusic);
-      document.removeEventListener("touchstart", startMusic);
-      document.removeEventListener("keydown", startMusic);
-      window.removeEventListener("scroll", startMusic);
+      audio.pause();
+      document.removeEventListener("click", onInteraction);
+      document.removeEventListener("touchstart", onInteraction);
+      document.removeEventListener("keydown", onInteraction);
+      window.removeEventListener("scroll", onInteraction);
     };
-  }, [startMusic]);
+  }, []);
 
   const toggle = () => {
     if (!audioRef.current) return;
