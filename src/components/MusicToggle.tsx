@@ -19,6 +19,7 @@ export default function MusicToggle() {
     document.removeEventListener("click", startMusic);
     document.removeEventListener("touchstart", startMusic);
     document.removeEventListener("keydown", startMusic);
+    window.removeEventListener("scroll", startMusic);
   }, []);
 
   useEffect(() => {
@@ -26,15 +27,19 @@ export default function MusicToggle() {
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
 
+    setTimeout(() => startMusic(), 3000);
+
     document.addEventListener("click", startMusic);
     document.addEventListener("touchstart", startMusic);
     document.addEventListener("keydown", startMusic);
+    window.addEventListener("scroll", startMusic);
 
     return () => {
       audioRef.current?.pause();
       document.removeEventListener("click", startMusic);
       document.removeEventListener("touchstart", startMusic);
       document.removeEventListener("keydown", startMusic);
+      window.removeEventListener("scroll", startMusic);
     };
   }, [startMusic]);
 

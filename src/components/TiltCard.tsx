@@ -18,7 +18,7 @@ export default function TiltCard({ children, className, onClick }: Props) {
     if (!rect) return;
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: y * -5, y: x * 5 });
+    setTilt({ x: y * -8, y: x * 8 });
   };
 
   const handleLeave = () => setTilt({ x: 0, y: 0 });

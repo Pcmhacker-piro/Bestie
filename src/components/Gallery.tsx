@@ -80,7 +80,7 @@ export default function Gallery({ photos }: Props) {
 
       <CategoryFilter active={filter} onSelect={setFilter} />
 
-      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 max-w-[1400px] mx-auto">
+      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 max-w-[1400px] mx-auto" style={{ columnGap: "2rem" }}>
         {filtered.map((photo, i) => (
           <motion.div
             key={photo.id}
@@ -89,7 +89,7 @@ export default function Gallery({ photos }: Props) {
             initial={{ opacity: 0, y: 30 }}
             animate={visiblePhotos.includes(photo.id) ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: i * 0.05, ease: "easeOut" }}
-            className="break-inside-avoid mb-4 cursor-pointer"
+            className="break-inside-avoid mb-8 cursor-pointer"
             onClick={() => handleSelect(photo)}
           >
             <TiltCard className="group relative overflow-hidden rounded-xl">
