@@ -7,6 +7,7 @@ import FloatingHearts from "@/components/FloatingHearts";
 import ParticleBackground from "@/components/ParticleBackground";
 import Starfield from "@/components/Starfield";
 import MusicToggle from "@/components/MusicToggle";
+import DoodleAnimation from "@/components/DoodleAnimation";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
 import { photos } from "@/data/photos";
@@ -33,6 +34,7 @@ export default function Home() {
             <QuoteSection />
           </Suspense>
         </div>
+        <DoodleAnimation />
         <Footer />
       </main>
       <MusicToggle />
